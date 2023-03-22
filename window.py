@@ -1,6 +1,12 @@
 import cv2
 from screeninfo import get_monitors
 import numpy as np
+import ctypes  # An included library with Python install.
+def Mbox(title, text, style):
+    return ctypes.windll.user32.MessageBoxW(0, text, title, style)
+
+# message = "    To highlight a point, press it with a double click.\n    Once you select a point, click next to the background to compare the intensity for it.\n    You can select several points. Do not forget for all of them to select a pair with background immediately.\n    After you have selected all the points, press the Enter for further processing."
+# Mbox('Program usage rules', message, 1)
 
 SELECT = 0
 screen = get_monitors()
@@ -16,7 +22,7 @@ for monitor in get_monitors():
 
 crds = np.array([])
 def mouse_action(event, x, y, flags, param):
-    global crds, img, selected_img, union_img, img_ori, SELECT
+    global crds, img, selected_img, union_img, img_ori, SELECT, I
 
     if event == cv2.EVENT_LBUTTONDBLCLK:
         SELECT = 1
@@ -26,6 +32,8 @@ def mouse_action(event, x, y, flags, param):
 
         selected_img = img_ori[y-4:y+5, x-4:x+5].copy()#copy selected area with extension so that the frame does not overlap data
         cv2.rectangle(selected_img, (0, 0), (8, 8), (255, 255, 255), 1)
+        I = np.append(I, calculate_I(selected_img[1:8, 1:8]))
+        # print("III", I)
 
         if crds.shape[0] > 2:#we need to add this selected area to previuos
             union_img = np.concatenate((union_img, selected_img), axis=1)
@@ -45,6 +53,12 @@ def mouse_action(event, x, y, flags, param):
     cv2.imshow("I Ratio", img)
     cv2.waitKey(1)
 
+def calculate_I(img):
+    Intens = 0
+    for i in range(img.shape[0]):
+        for j in range(img.shape[1]):
+            Intens += 0.299 * img[i, j, 2] + 0.587 * img[i, j, 1] + 0.114 * img[i, j, 0]
+    return round(Intens)
 
 
 
@@ -62,5 +76,6 @@ img = img_ori.copy()
 selected_img = []
 union_img = []
 cv2.imshow("I Ratio", img)
+I = np.array([])
 
 cv2.setMouseCallback('I Ratio', mouse_action)
