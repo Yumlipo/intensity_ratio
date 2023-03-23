@@ -1,12 +1,14 @@
 import cv2
 from screeninfo import get_monitors
 import numpy as np
+
+
 import ctypes  # An included library with Python install.
 def Mbox(title, text, style):
     return ctypes.windll.user32.MessageBoxW(0, text, title, style)
 
-# message = "    To highlight a point, press it with a double click.\n    Once you select a point, click next to the background to compare the intensity for it.\n    You can select several points. Do not forget for all of them to select a pair with background immediately.\n    After you have selected all the points, press the Enter for further processing."
-# Mbox('Program usage rules', message, 1)
+message = "    To highlight a point, press it with a double click.\n    Once you select a point, click next to the background to compare the intensity for it.\n    You can select several points. Do not forget for all of them to select a pair with background immediately.\n    After you have selected all the points, press the Enter for further processing."
+Mbox('Program usage rules', message, 1)
 
 SELECT = 0
 screen = get_monitors()
@@ -50,8 +52,7 @@ def mouse_action(event, x, y, flags, param):
         thickness = 1
         img = cv2.putText(img, text, coordinates, font, fontScale, color, thickness, cv2.LINE_AA)
 
-    cv2.imshow("I Ratio", img)
-    cv2.waitKey(1)
+    cv2.imshow("Z project", img)
 
 def calculate_I(img):
     Intens = 0
@@ -65,9 +66,9 @@ def calculate_I(img):
 #------------change file name
 img_ori = cv2.imread("pics/1.jpg")
 
-cv2.namedWindow('I Ratio', cv2.WINDOW_FULLSCREEN)
-cv2.moveWindow('I Ratio', int(0.1 * work_area[0]), int(0.1 * work_area[1]))
-win = cv2.getWindowImageRect("I Ratio")
+cv2.namedWindow('Z project', cv2.WINDOW_FULLSCREEN)
+cv2.moveWindow('Z project', int(0.1 * work_area[0]), int(0.1 * work_area[1]))
+win = cv2.getWindowImageRect("Z project")
 
 
 
@@ -75,7 +76,8 @@ img_ori_h, img_ori_w = img_ori.shape[0:2] # original image width and height
 img = img_ori.copy()
 selected_img = []
 union_img = []
-cv2.imshow("I Ratio", img)
+cv2.imshow("Z project", img)
 I = np.array([])
 
-cv2.setMouseCallback('I Ratio', mouse_action)
+
+cv2.setMouseCallback('Z project', mouse_action)
