@@ -39,7 +39,7 @@ def mouse_action(event, x, y, flags, param):
 
         if crds.shape[0] > 2:#we need to add this selected area to previuos
             union_img = np.concatenate((union_img, selected_img), axis=1)
-            cv2.imwrite('out.png', union_img)
+            # cv2.imwrite('out.png', union_img)
         else:
             union_img = selected_img
         cv2.imshow("Selected Images", union_img)

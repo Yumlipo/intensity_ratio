@@ -39,12 +39,20 @@ while cv2.getWindowProperty("Z project", cv2.WND_PROP_VISIBLE) > 0:
 
             # num_of_points = IminusBG_arr.shape[1]
             t = np.linspace(0, IminusBG_arr.shape[1], IminusBG_arr.shape[1])
+            # for i in range(IminusBG_arr.shape[0]):
+            #     plt.plot(t, IminusBG_arr[i], label=str(i))
+            # plt.xlabel('frames, x ms')
+            # plt.ylabel('I(point) - I(BG)')
+            # plt.title("Signal to noise from time")
+            # plt.legend()
+            # plt.show()
             for i in range(IminusBG_arr.shape[0]):
-                plt.plot(t, IminusBG_arr[i], label=str(i))
-            plt.xlabel('frames, x ms')
-            plt.ylabel('I(point) - I(BG)')
-            plt.title("Signal to noise from time")
-            plt.legend()
+                fig, ax = plt.subplots()
+                ax.plot(t, IminusBG_arr[i], label=str(i+1))
+                ax.set_xlabel('frames, x ms')
+                ax.set_ylabel('I(point) - I(BG)')
+                ax.set_title("Signal to noise from time for №" + str(i+1) + " point")
+                ax.legend()
             plt.show()
 
 
